@@ -20,5 +20,11 @@
   <%= @section.room_number %>
 </p>
 
+<% if @section.students.size > 0 %>
+  <% @course.students.each do |student| %>
+  <%= render student %>
+  <% end %>
+<% end %>
+
 <%= link_to 'Edit', edit_section_path(@section) %> |
 <%= link_to 'Back', sections_path %>

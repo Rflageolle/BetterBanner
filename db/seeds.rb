@@ -13,6 +13,24 @@ classes = [
   [  'Probability and Statistics',   'MTH',   50330,   4]
 ]
 
+sections = [
+  [  'Fall 2018',   1, 1, 220], [  'Fall 2018',   1, 3, 220], [  'Fall 2018',   1, 1, 210],
+  [  'Fall 2018',   1, 2, 140], [  'Fall 2018',   2, 3, 210], [  'Fall 2018',   2, 1, 220],
+  [  'Fall 2018',   1, 3, 250], [  'Fall 2018',   1, 4, 220], [  'Fall 2018',   2, 4, 220]
+]
+
+student = [
+  [  'Tom', 'Hanks'  ], [  'Tim', 'Allen'  ], [  'Hilary', 'Clinton'], [  'Erin', 'Soto']
+]
+
 classes.each do |name, department, number, credit_hours|
   Course.create(name: name, department: department, number: number, credit_hours: credit_hours)
+end
+
+sections.each do |semester, number, course, room_number|
+  Section.create(semester: semester, number: number, course: Course.find(course), room_number: room_number)
+end
+
+student.each do |first, last|
+  Student.create(first_name: first, last_name: last)
 end
