@@ -1,39 +1,51 @@
 <p id="notice"><%= notice %></p>
 
-<% #= form_tag(section_path, method: "get") do %>
-  <% #= label_tag(:query, "Search for:") %>
-  <% #= text_field_tag(:query) %>
-  <% #= submit_tag("Search")%>
-<% # end %>
+<div class="field is-grouped has-addons">
+  <%= form_tag(search_sections_url, method: "get") do %>
+    <p class="control">
+      <input class="input is-success" type="text" placeholder="Search Sections"></input>
+    </p>
+    <p class="control">
+      <a class="button"/>
+        <%= submit_tag("Search")%>
+      </a>
+    </p>
+  <%  end %>
+</div>
 
-<h1>Sections</h1>
+<section class="section">
 
-<table>
-  <thead>
-    <tr>
-      <th>Semester</th>
-      <th>Number</th>
-      <th>Course</th>
-      <th>Room number</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="container">
+    <h2 class="title">Sections</h2>
 
-  <tbody>
-    <% @sections.each do |section| %>
-      <tr>
-        <td><%= section.semester %></td>
-        <td><%= section.number %></td>
-        <td><%= section.course.name %></td>
-        <td><%= section.room_number %></td>
-        <td><%= link_to 'Show', section %></td>
-        <td><%= link_to 'Edit', edit_section_path(section) %></td>
-        <td><%= link_to 'Destroy', section, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <table class="table is-hoverable is-bordered">
+      <thead>
+        <tr>
+          <th>Semester</th>
+          <th>Number</th>
+          <th>Course</th>
+          <th>Room number</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-<br>
+      <tbody>
+        <% @sections.each do |section| %>
+          <tr>
+            <td><%= section.semester %></td>
+            <td><%= section.number %></td>
+            <td><%= section.course.name %></td>
+            <td><%= section.room_number %></td>
+            <td><%= link_to 'Show', section %></td>
+            <td><%= link_to 'Edit', edit_section_path(section) %></td>
+            <td><%= link_to 'Destroy', section, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <br>
 
-<%= link_to 'New Section', new_section_path %>
+  <button class="button"><%= link_to 'New Section', new_section_path %></button>
+  </div>
+
+</section>

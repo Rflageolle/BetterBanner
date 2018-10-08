@@ -1,50 +1,63 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @course.name %>
-</p>
+  <p id="notice"><%= notice %></p>
+  <section class="hero">
+    <div class="box">
+      <div class="hero-head">
+        <label class="title"><%= @course.name %></label>
+      </div>
+      <div class="hero-body">
+        <div class="content">
+          <div class="columns is-gapless">
+            <div class="column is-4 is-offset-one">
+              <label class="subtitle">Department:</label>
+            </div>
+            <div class="columns is-gapless">
+              <div class="column">
+                <label class="label has-text-weight-semibold"><%= @course.department %></label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="content">
+          <div class="columns is-gapless">
+            <div class="column is-4 is-offset-one">
+              <label class="subtitle">Number:</label>
+            </div>
+            <div class="column">
+              <label class="label has-text-left has-text-weight-semibold"><%= @course.number %></label>
+            </div>
+          </div>
+        </div>
 
-<p>
-  <strong>Department:</strong>
-  <%= @course.department %>
-</p>
+        <div class="content">
+          <div class="columns is-gapless">
+            <div class="column is-4 is-offset-one">
+              <label class="subtitle">Credit Hours:</label>
+            </div>
+            <div class="column is-4 is-offset-one">
+              <label class="label has-text-weight-semibold"><%= @course.credit_hours %></label>
+            </div>
+          </div>
+        </div>
+        <button class="button"><%= link_to 'Edit', edit_course_path(@course) %></button>
+        <button class="button"><%= link_to 'Back', courses_path %></button>
 
-<p>
-  <strong>Number:</strong>
-  <%= @course.number %>
-</p>
+      </div>
 
-<p>
-  <strong>Credit hours:</strong>
-  <%= @course.credit_hours %>
-</p>
-
-| <%= link_to 'Edit', edit_course_path(@course) %> |
-
-<table>
-  <h1>Sections<h1>
-  <thead>
-    <tr>
-      <th>Semester</th>
-      <th>Number</th>
-      <th>Room Number</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @course.sections.each do |section| %>
-      <tr>
-        <td><%= section.semester %></td>
-        <td><%= section.number %></td>
-        <td><%= section.room_number %></td>
-        <td><%= link_to 'Show', section %></td>
-        <td><%= link_to 'Edit', edit_section_path(section) %></td>
-        <td><%= link_to 'Destroy', section, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= link_to 'Back', courses_path %>
+      <div class="hero-foot">
+        <div class="columns">
+          <div class="column is-5 is-offset-one"
+          <% unless @course.sections.empty? %>
+            <label class="subtitle">Sections:</label>
+            <div class="content">
+            <% @course.sections.each do |section| %>
+              <div class="box"><%= link_to "Semester: #{section.semester} -> 00#{section.number}", section %></div>
+            <% end %>
+            </div>
+          <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

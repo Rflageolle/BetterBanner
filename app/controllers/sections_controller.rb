@@ -15,6 +15,7 @@ class SectionsController < ApplicationController
   # GET /sections/new
   def new
     @section = Section.new
+    @courses = Courses.all
   end
 
   # GET /sections/1/edit
@@ -22,7 +23,7 @@ class SectionsController < ApplicationController
   end
 
   def search
-    @courses = Section.where('section like ?', "%#{params[:query]}%")
+    @courses = Section.where("name like ?", "%#{params[:query]}%")
     render :index
   end
 
