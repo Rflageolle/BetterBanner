@@ -3,6 +3,11 @@ require 'test_helper'
 class StudentsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @student = students(:one)
+    @update = {
+      first_name: "Ryan",
+      last_name: "Flageolle"
+    }
+    @section = sections(:one)
   end
 
   test "should get index" do
@@ -34,7 +39,7 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update student" do
-    patch student_url(@student), params: { student: { first_name: @student.first_name, last_name: @student.last_name } }
+    patch student_url(@student), params: { student: @update }
     assert_redirected_to student_url(@student)
   end
 
@@ -44,5 +49,10 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to students_url
+  end
+
+  test "should add section refrence" do
+    put add_to_sections(@section)
+    assert_response :success
   end
 end

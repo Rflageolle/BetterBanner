@@ -3,6 +3,13 @@ require 'test_helper'
 class SectionsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @section = sections(:one)
+    @update = {
+      course_id: 1,
+      number: 2,
+      room_number: 320,
+      semester: "Spring"
+    }
+    @student = { student_ids: 1 }
   end
 
   test "should get index" do
@@ -34,7 +41,7 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update section" do
-    patch section_url(@section), params: { section: { course_id: @section.course_id, number: @section.number, room_number: @section.room_number, semester: @section.semester } }
+    patch section_url(@section), params: { section: @update }
     assert_redirected_to section_url(@section)
   end
 
@@ -45,4 +52,10 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to sections_url
   end
+
+  test "should add a student" do
+    post create_section(@student)
+    assert_response :success
+  end
+
 end

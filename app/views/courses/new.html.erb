@@ -1,5 +1,5 @@
-<h1>New Course</h1>
-
-<%= render 'form', course: @course %>
-
-<%= link_to 'Back', courses_path %>
+<div class:"container">
+  <h1 class="title">New Course</h1>
+  <div class="box"><%= render 'form', course: @course %></div>
+  <button class="button"><%= link_to 'Back', courses_path %></button>
+</div>

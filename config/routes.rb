@@ -1,19 +1,17 @@
 Rails.application.routes.draw do
   resources :students do
     collection do
-      get 'search'
-      post 'add_section'
+      get 'search', to: 'students#search'
     end
   end
   resources :courses do
     collection do
-      get 'search'
+      get 'search', to: 'courses#search'
     end
   end
   resources :sections do
     collection do
-      get 'search'
-      post 'add_student'
+      get 'search', to:'sections#search'
     end
   end
   root 'courses#index'
