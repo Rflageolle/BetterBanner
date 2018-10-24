@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<div class="field is-grouped has-addons">
+  <%= form_tag(search_sections_url, method: "get") do %>
+    <p class="control">
+      <input class="input is-success" type="text" placeholder="Search Sections"></input>
+    </p>
+    <p class="control">
+      <a class="button"/>
+        <%= submit_tag("Search")%>
+      </a>
+    </p>
+  <%  end %>
+</div>
+
+<section class="section">
+
+  <div class="container">
+    <h2 class="title">Sections</h2>
+
+    <table class="table is-hoverable is-bordered">
+      <thead>
+        <tr>
+          <th>Semester</th>
+          <th>Number</th>
+          <th>Course</th>
+          <th>Room number</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @sections.each do |section| %>
+          <tr>
+            <td><%= section.semester %></td>
+            <td><%= section.number %></td>
+            <td><%= section.course.name %></td>
+            <td><%= section.room_number %></td>
+            <td><%= link_to 'Show', section %></td>
+            <td><%= link_to 'Edit', edit_section_path(section) %></td>
+            <td><%= link_to 'Destroy', section, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <br>
+
+  <button class="button"><%= link_to 'New Section', new_section_path %></button>
+  </div>
+
+</section>

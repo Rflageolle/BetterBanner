@@ -1,0 +1,23 @@
+<p>
+  <strong>First name:</strong>
+  <%= @student.first_name %>
+</p>
+
+<p>
+  <strong>Last name:</strong>
+  <%= @student.last_name %>
+</p>
+
+<%= link_to 'Edit', edit_student_path(@student) %> |
+<%= link_to 'Back', students_path %>
+
+<div class="hero-foot">
+  <% unless @student.sections.empty? %>
+    <div class="box">
+      <label class="subtitle">Students:</label>
+      <% @student.sections.each do |section| %>
+      <%= render section %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
