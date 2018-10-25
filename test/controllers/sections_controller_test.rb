@@ -24,7 +24,7 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create section" do
     assert_difference('Section.count') do
-      post sections_url, params: { section: { course_id: @section.course_id, number: @section.number, room_number: @section.room_number, semester: @section.semester } }
+      post sections_url, params: { section: { course_id: @section.course_id, number: @section.number, room_number: @section.room_number, semester: @section.semester, student_ids: [] } }
     end
 
     assert_redirected_to section_url(Section.last)
@@ -54,7 +54,7 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should add a student" do
-    post create_section(@student)
+    patch section_url(@section), params: { student_ids: [ 1 ]}
     assert_response :success
   end
 
