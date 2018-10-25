@@ -1,0 +1,56 @@
+<div class="box">
+  <section class="hero">
+    <div class="hero-head">
+      <label class="title"><%= @section.course.name %></label>
+    </div>
+    <div class="hero-body">
+      <div class="content">
+        <div class="columns is-gapless">
+          <div class="column is-4 is-offset-one">
+            <label class="subtitle">Semester:</label>
+          </div>
+          <div class="columns is-gapless">
+            <div class="column">
+              <label class="label has-text-weight-semibold"><%= @section.semester %></label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="columns is-gapless">
+          <div class="column is-4 is-offset-one">
+            <label class="subtitle">Number:</label>
+          </div>
+          <div class="column">
+            <label class="label has-text-left has-text-weight-semibold"><%= "00#{@section.number}" %></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="content">
+        <div class="columns is-gapless">
+          <div class="column is-4 is-offset-one">
+            <label class="subtitle">Room number:</label>
+          </div>
+          <div class="column is-4 is-offset-one">
+            <label class="label has-text-weight-semibold"><%= @section.room_number %></label>
+          </div>
+        </div>
+      </div>
+
+      <button class="button"><%= link_to 'Edit', edit_section_path(@section) %></button>
+      <button class="button"><%= link_to 'Back', sections_path %></button>
+
+    </div>
+    <div class="hero-foot">
+      <% unless @section.students.empty? %>
+        <div class="box">
+          <label class="subtitle">Students:</label>
+          <% @section.students.each do |student| %>
+          <%= render student %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </section>
+</div>

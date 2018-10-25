@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<div class="field has-addons">
+  <%= form_tag(search_courses_url, method: "get") do %>
+  <div class="control">
+    <input class="input" type="text" placeholder="Search Sections"></input>
+  </div>
+  <div class="control">
+    <a class="button"/><%= submit_tag("Search")%></a>
+  </div>
+  <% end %>
+</div>
+
+<section class="section">
+  <div class="container">
+    <h2 class="title">Courses</h2>
+
+    <table class="table is-hoverable is-bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Department</th>
+          <th>Number</th>
+          <th>Credit hours</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @courses.each do |course| %>
+          <tr>
+            <td><%= course.name %></td>
+            <td><%= course.department %></td>
+            <td><%= course.number %></td>
+            <td><%= course.credit_hours %></td>
+            <td><%= link_to 'Show', course %></td>
+            <td><%= link_to 'Edit', edit_course_path(course) %></td>
+            <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <button class="button"><%= link_to 'New Course', new_course_path %></button>
+  </div>
+</section>
