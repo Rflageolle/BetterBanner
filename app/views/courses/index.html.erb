@@ -1,14 +1,16 @@
 <p id="notice"><%= notice %></p>
 
-<div class="field has-addons">
-  <%= form_tag(search_courses_url, method: "get") do %>
-  <div class="control">
-    <input class="input" type="text" placeholder="Search Sections"></input>
+<div class="container">
+  <div class="field has-addons">
+    <div class="control">
+      <%= form_tag(search_courses_url, method: "get") do %>
+      <input class="input" type="text" placeholder="Search Sections"></input>
+    </div>
+    <div class="control">
+      <a class="button"/><%= submit_tag("Search")%></a>
+    </div>
+    <% end %>
   </div>
-  <div class="control">
-    <a class="button"/><%= submit_tag("Search")%></a>
-  </div>
-  <% end %>
 </div>
 
 <section class="section">

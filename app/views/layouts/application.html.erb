@@ -18,6 +18,33 @@
       <p class="alert alert-danger"><%= alert %></p>
     <% end %>
 
+    <div class="container">
+      <header class="navbar" role="navigation">
+        <div id="navbarBetterBanner" class="navbar-menu">
+          <div class="navbar-item">
+            <%=link_to "Home", courses_path%>
+          </div>
+
+          <a class="navbar-item">
+            About
+          </a>
+        </div>
+
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons">
+              <a class="button is-primary">
+                <strong>Sign Up</strong>
+              </a>
+              <a class="button is-light">
+                <strong>Log In</strong>
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+    </div>
+
     <%= yield %>
   </body>
 </html>
