@@ -11,3 +11,9 @@ two:
   number: 2
   course: two
   room_number: 202
+
+three:
+  semester: Summer
+  number: 1
+  course: two
+  room_number: 223

@@ -9,7 +9,6 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
       room_number: 320,
       semester: "Spring"
     }
-    @student = { student_ids: 1 }
   end
 
   test "should get index" do
@@ -24,7 +23,7 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create section" do
     assert_difference('Section.count') do
-      post sections_url, params: { section: { course_id: @section.course_id, number: @section.number, room_number: @section.room_number, semester: @section.semester, student_ids: [] } }
+      post sections_url, params: { section: @student }
     end
 
     assert_redirected_to section_url(Section.last)
@@ -41,8 +40,12 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update section" do
+    @section
     patch section_url(@section), params: { section: @update }
     assert_redirected_to section_url(@section)
+
+    section.reload
+    assert_equal "updated", section
   end
 
   test "should destroy section" do
@@ -51,11 +54,6 @@ class SectionsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to sections_url
-  end
-
-  test "should add a student" do
-    patch section_url(@section), params: { student_ids: [ 1 ]}
-    assert_response :success
   end
 
 end

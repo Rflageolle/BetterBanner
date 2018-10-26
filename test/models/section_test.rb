@@ -9,6 +9,7 @@ class SectionTest < ActiveSupport::TestCase
     assert section.errors[:number]
     assert section.errors[:semester]
     assert section.errors[:course_id]
+    assert section.errors[:student_ids]
   end
 
 end

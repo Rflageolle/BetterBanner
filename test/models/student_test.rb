@@ -7,6 +7,7 @@ class StudentTest < ActiveSupport::TestCase
     assert student.invalid?
     assert student.errors[:first_name]
     assert student.errors[:last_name]
+    assert student.errors[:section_ids]
   end
-  
+
 end

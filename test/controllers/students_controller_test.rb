@@ -22,7 +22,7 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create student" do
     assert_difference('Student.count') do
-      post students_url, params: { student: { first_name: @student.first_name, last_name: @student.last_name } }
+      post students_url, params: { student: { first_name: @update[:first_name], last_name: @update[:last_name] } }
     end
 
     assert_redirected_to student_url(Student.last)
@@ -51,8 +51,4 @@ class StudentsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to students_url
   end
 
-  test "should add section refrence" do
-    put add_to_sections(@section)
-    assert_response :success
-  end
 end

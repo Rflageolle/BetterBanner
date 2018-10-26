@@ -26,8 +26,6 @@ class StudentsController < ApplicationController
     render :index
   end
 
-
-
   # POST /students
   # POST /students.json
   def create
@@ -80,6 +78,10 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:first_name, :last_name, :query, {section_ids: []})
+      if params[:student].is_a? String
+        params[:students]
+      else
+        params.require(:student).permit(:first_name, :last_name, :query, {section_ids: []})
+      end
     end
 end

@@ -31,11 +31,8 @@ class SectionsController < ApplicationController
   # POST /sections.json
   def create
 
-    #section_params(:student_ids) ||= []
-
     @section = Section.new(section_params)
-    @section.students.append(section_params(:student_ids))
-
+    @student.sections.append(student_params[:section_ids])
 
     respond_to do |format|
       if @section.save
@@ -80,6 +77,10 @@ class SectionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def section_params
-      params.require(:section).permit(:semester, :number, :course_id, :room_number, :query, {student_ids: []})
+      if params[:section].is_a? String
+        params[:section]
+      else
+        params.require(:section).permit(:semester, :number, :course_id, :room_number, :query, { student_ids: [] })
+      end
     end
 end
