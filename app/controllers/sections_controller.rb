@@ -23,7 +23,7 @@ class SectionsController < ApplicationController
   end
 
   def search
-    @courses = Section.where("name like ?", "%#{params[:query]}%")
+    @sections = Section.where("semester like ?", "%#{params[:query]}%")
     render :index
   end
 

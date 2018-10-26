@@ -1,15 +1,9 @@
-<p id="notice"><%= notice %></p>
-
 <div class="container">
-  <div class="field has-addons">
-    <div class="control">
+  <div class="container">
       <%= form_tag(search_courses_url, method: "get") do %>
-      <input class="input" type="text" placeholder="Search Courses"></input>
-    </div>
-    <div class="control">
-      <a class="button"/><%= submit_tag("Search")%></a>
-    </div>
-    <% end %>
+        <%= text_field_tag(:query) %>
+        <%= submit_tag("Search")%>
+      <%  end %>
   </div>
 </div>
 

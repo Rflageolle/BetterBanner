@@ -1,16 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<div class="field is-grouped has-addons">
-  <%= form_tag(search_sections_url, method: "get") do %>
-    <p class="control">
-      <input class="input is-success" type="text" placeholder="Search Sections"></input>
-    </p>
-    <p class="control">
-      <a class="button"/>
-        <%= submit_tag("Search")%>
-      </a>
-    </p>
-  <%  end %>
+<div class="container">
+    <%= form_tag(search_sections_url, method: "get") do %>
+      <%= text_field_tag(:query) %>
+      <%= submit_tag("Search")%>
+    <%  end %>
 </div>
 
 <section class="section">
