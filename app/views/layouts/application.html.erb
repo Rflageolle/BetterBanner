@@ -11,12 +11,14 @@
 
   <body>
 
-    <% if notice %>
-      <p class="alert alert-success"><%= notice %></p>
-    <% end %>
-    <% if alert %>
-      <p class="alert alert-danger"><%= alert %></p>
-    <% end %>
+    <div class="container">
+      <% if notice %>
+        <p class="alert alert-success"><%= notice %></p>
+      <% end %>
+      <% if alert %>
+        <p class="alert alert-danger"><%= alert %></p>
+      <% end %>
+    </div>
 
     <div class="container">
       <header class="navbar" role="navigation">
@@ -24,7 +26,12 @@
           <div class="navbar-item">
             <%=link_to "Home", courses_path%>
           </div>
-
+          <div class="navbar-item">
+            <%= link_to "Sections", sections_path %>
+          </div>
+          <div class="navbar-item">
+            <%= link_to "Students", students_path %>
+          </div>
           <a class="navbar-item">
             About
           </a>
