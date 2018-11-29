@@ -6,44 +6,95 @@
     src="https://code.jquery.com/jquery-3.3.1.js"
     integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
 </head>
 <body>
 
-<label class="title">Better Banner</title>
+<div class="container">
+  <label class="title">Better Banner</title>
+  <div id='Itemlist'>
+    <div class="box">
+      <ul class="ul">
+        <div v-if="courses.length > 0">
+          <label class="label">Courses:</label>
+        </div>
+        <div v-for="course in courses">
+          <li>Course #: 600{{ course['id'] }}: {{ course['name']}}</li>
+        </div>
+      </ul>
+      <br>
+      <ul class="ul">
+        <div v-if="sections.length > 0">
+          <label class="label">Sections:</label>
+        </div>
+        <div v-for="section in sections">
+          <li>Course #: {{ section.course_id}} => Section #: 00{{ section.number}} - {{ section.semester }}</li>
+        </div>
+      </ul>
+      <br>
+      <ul class="ul">
+        <div v-if="students.length > 0">
+          <label class="label">Students:</label>
+        </div>
+        <div v-for="student in students">
+          <li class="li">{{ student.last_name }}, {{ student.first_name }}</li>
+        </div>
+      </ul>
 
-<div id='Itemlist'>
-  <div id="Courses" class="section">
-    <ul>
-      <label class="label"><strong>Courses:</strong></label>
-      <div v-for="course in courses">
-        <li>Course #: 600{{ course['id'] }}: {{ course['name']}}</li>
-      </div>
-    </ul>
+    </div>
+
+    <button class="button" v-on:click="doajax('courses')">Courses</button>
+    <button class="button" v-on:click="doajax('sections')">Sections</button>
+    <button class="button" v-on:click="doajax('students')">Students</button>
+
   </div>
 
-  <ul>
-    <label class="label"><strong>Sections:</strong></label>
-    <div v-for="section in sections">
-      <li>Course #: {{ section.course_id}} => Section #: 00{{ section.number}} - {{ section.semester }}</li>
-    </div>
-  </ul>
+  <div id="Create Course" class="box">
+    <field class="field" v-model="new_course.name">
+        <input class="input" placeholder="Course Name" type="test" maxlength="50"></input>
+    </field>
 
-  <ul>
-    <label class="label"><strong>Students:</strong></label>
-    <div v-for="student in students">
-      <li>{{ student.last_name }}, {{ student.first_name }}</li>
-    </div>
-  </ul>
+    <field class="field" label="Department" v-model="new_course.department">
+        <input class="input" placeholder="Course Department" type="text" maxlength="30"></input>
+    </field>
 
-  <button v-on:click="doajax('courses')">Courses</button>
-  <button v-on:click="doajax('sections')">Sections</button>
-  <button v-on:click="doajax('students')">Students</button>
+    <field class="field" label="number" v-model="new_course.number">
+        <input class="input" placeholder="Course Number" type="number" maxlength="5"></input>
+    </field>
+
+    <field class="field" label="credit_hours" v-model="new_course.credit_hours">
+        <input class="input" placeholder="Credit Hours" type="number" maxlength="5"></input>
+    </field>
+
+    <button class="button" v-on:click="submit('course')">Submit</button>
+  </div>
 </div>
 
 <script type="text/javascript">
 var ItemsVue = new Vue({
     el: '#Itemlist',
-    data: { students: [], sections: [], courses: [], items: [] },
+    data: { students: [], sections: [], courses: [], items: [],
+
+            new_course: {
+                name: "",
+                department: "",
+                number: "",
+                credit_hours: ""
+            },
+
+            new_section: {
+              semester: "",
+              number: 0,
+              course_id: 0,
+              room_number: 0
+            },
+
+            new_student: {
+              first_name: "",
+              last_name: ""
+            }},
+
     methods: {
         // use jquery
         doajax: function(which) {
