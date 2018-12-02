@@ -12,88 +12,152 @@
 <body>
 
 <div class="container">
-  <label class="title">Better Banner</title>
+  <section class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Better Banner
+      </h1>
+    </div>
+  </div>
+</section>
+
   <div id='Itemlist'>
     <div class="box">
-      <ul class="ul">
-        <div v-if="courses.length > 0">
-          <label class="label">Courses:</label>
+      <div v-if="courses.length > 0">
+        <section class="hero is-link">
+          <div class="hero-body">
+            <h2 class="title">Courses:</h2>
+          </div>
+        </section>
+        <course-section-item v-for="course in courses" v-bind:key="course.id" v-bind:course="course" v-bind:sections="sections"></course-section-item>
+      </div>
+      <div v-if="students.length > 0">
+        <section class="hero is-link">
+          <div class="hero-body">
+            <h2 class="title">Students:</h2>
+          </div>
+        </section>
+        <div class="box">
+          <div class="tags">
+            <student-item v-for="student in students" v-bind:key="student.id" v-bind:student="student"></student-item>
+          </div>
         </div>
-        <div v-for="course in courses">
-          <li>Course #: 600{{ course['id'] }}: {{ course['name']}}</li>
-        </div>
-      </ul>
-      <br>
-      <ul class="ul">
-        <div v-if="sections.length > 0">
-          <label class="label">Sections:</label>
-        </div>
-        <div v-for="section in sections">
-          <li>Course #: {{ section.course_id}} => Section #: 00{{ section.number}} - {{ section.semester }}</li>
-        </div>
-      </ul>
-      <br>
-      <ul class="ul">
-        <div v-if="students.length > 0">
-          <label class="label">Students:</label>
-        </div>
-        <div v-for="student in students">
-          <li class="li">{{ student.last_name }}, {{ student.first_name }}</li>
-        </div>
-      </ul>
-
+      </div>
     </div>
 
-    <button class="button" v-on:click="doajax('courses')">Courses</button>
-    <button class="button" v-on:click="doajax('sections')">Sections</button>
-    <button class="button" v-on:click="doajax('students')">Students</button>
-
-  </div>
-
-  <div id="Create Course" class="box">
-    <field class="field" v-model="new_course.name">
-        <input class="input" placeholder="Course Name" type="test" maxlength="50"></input>
-    </field>
-
-    <field class="field" label="Department" v-model="new_course.department">
-        <input class="input" placeholder="Course Department" type="text" maxlength="30"></input>
-    </field>
-
-    <field class="field" label="number" v-model="new_course.number">
-        <input class="input" placeholder="Course Number" type="number" maxlength="5"></input>
-    </field>
-
-    <field class="field" label="credit_hours" v-model="new_course.credit_hours">
-        <input class="input" placeholder="Credit Hours" type="number" maxlength="5"></input>
-    </field>
-
-    <button class="button" v-on:click="submit('course')">Submit</button>
-  </div>
-</div>
-
 <script type="text/javascript">
+Vue.component('student-item', {
+  props: ['student'],
+  template:`
+  <span class="tag is-size-6 is-info">{{student.last_name}}, {{student.first_name}}</span>
+  `
+}),
+
+Vue.component('section-item', {
+  props: ['section'],
+  template: `
+  <div class="card is-size-4">
+    <header class="card-content">
+      <div class="level">
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Section Number</p>
+            <p class="title">{{section.number}}</p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Semester</p>
+            <p class="title">{{section.semester}}</p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Room Number</p>
+            <p class="title">{{section.room_number}}</p>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+  `
+}),
+
+Vue.component('course-section-item', {
+  props: ['course', 'sections'],
+  template:`
+    <div class="card is-size-4">
+      <header class="card-header">
+        <p class="card-header-title">{{course.name}}</p>
+      </header>
+      <div class="card-content">
+        <div class="content">{{course.department}} {{course.number}} -- {{course.credit_hours}} credit hours</div>
+        <label class="label is-size-3">Sections:</label>
+        <div v-for="section in sections">
+          <section-item v-if="section.course_id === course.id" v-bind:key="section.id" v-bind:section="section"></section-item>
+        </div>
+      </div>
+    </div>
+  `
+})
+
+Vue.component('addCourse', {
+  props: {
+    course: {
+      type: Object,
+      name: '',
+      department: '',
+      number: 0,
+      credit_hours: 0
+    }
+  },
+  template: `
+  <div class="columns">
+    <div class="column is-half">
+      <div class="box">
+        <h1 class="title">New Course</h1>
+        <input class="input" v-model="new_course.name" placeholder="Course Name" type="text">
+        <input class="input" v-model="new_course.department" placeholder="Department (CS, MTH, ...)" type="text">
+        <input class="input" v-model="new_course.number" placeholder="52145" type="number">
+        <input class="input" v-model="new_course.credit_hours" placeholder="2" type="number">
+      </div>
+    </div>
+  </div>
+  `
+})
+
 var ItemsVue = new Vue({
     el: '#Itemlist',
-    data: { students: [], sections: [], courses: [], items: [],
+    data: {
+      students: [],
+      sections: [],
+      courses: [],
+      items: [],
+      addItem: {
+        course: Object,
+        sections: []
+      },
 
-            new_course: {
-                name: "",
-                department: "",
-                number: "",
-                credit_hours: ""
-            },
+      new_course: {
+          name: "",
+          department: "",
+          number: "",
+          credit_hours: ""
+      },
 
-            new_section: {
-              semester: "",
-              number: 0,
-              course_id: 0,
-              room_number: 0
-            },
+      new_section: {
+        semester: "",
+        number: 0,
+        course_id: 0,
+        room_number: 0
+      },
 
-            new_student: {
-              first_name: "",
-              last_name: ""
-            }},
+      new_student: {
+        first_name: "",
+        last_name: ""
+      }
+    },
 
     methods: {
         // use jquery
@@ -121,8 +185,15 @@ var ItemsVue = new Vue({
                 }
             });
         }
+
+      },
+
+      beforeMount(){
+        this.doajax("courses");
+        this.doajax("students");
+        this.doajax("sections");
       }
-});
+    });
 </script>
 
 </body>
