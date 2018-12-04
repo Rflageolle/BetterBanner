@@ -46,6 +46,52 @@
       </div>
     </div>
 
+    <div v-if="addCourse === true">
+      <div class="box">
+        <h3 class="title">New Course</h3>
+        <form>
+          <label class="label">
+            Name:
+            <input class="input" type="text" v-model="new_course.name"/>
+          </label>
+          <label class="label">
+            Department:
+            <input class="input" type="text" v-model="new_course.department"/>
+          </label>
+          <label class="label">
+            Number:
+            <input class="input" type="Number" v-model="new_course.number"/>
+          </label>
+          <label class="label">
+            Credit Hours:
+            <input class="input" type="Number" v-model="new_course.credit_hours"/>
+          </label>
+          <button class="button" v-on:click="submitNew(new_course)">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="level">
+        <div class="level-item">
+          <div v-if="addCourse === false">
+            <button class="button" v-on:click="addSome('course')">Add Course</button>
+          </div>
+        </div>
+        <div class="level-item">
+          <div v-if="addSection === false">
+            <button class="button" v-on:click="addSome('section')">Add Section</button>
+          </div>
+        </div>
+        <div class="level-item">
+          <div v-if="addStudent === false">
+            <button class="button" v-on:click="addSome('student')">Add Student</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <script type="text/javascript">
 Vue.component('student-item', {
   props: ['student'],
@@ -92,39 +138,56 @@ Vue.component('course-section-item', {
         <p class="card-header-title">{{course.name}}</p>
       </header>
       <div class="card-content">
-        <div class="content">{{course.department}} {{course.number}} -- {{course.credit_hours}} credit hours</div>
-        <label class="label is-size-3">Sections:</label>
-        <div v-for="section in sections">
-          <section-item v-if="section.course_id === course.id" v-bind:key="section.id" v-bind:section="section"></section-item>
+        <div class="level">
+          <div class="level-left">
+            <label class="label is-size-4">{{course.department}}  {{course.number}}</label>
+          </div>
+          <div class="level-right">
+            <label class="label is-size-4">{{course.credit_hours}} credit hours</label>
+          </div>
         </div>
+          <div v-for="section in sections">
+            <section-item v-if="section.course_id === course.id" v-bind:key="section.id" v-bind:section="section"></section-item>
+          </div>
       </div>
     </div>
   `
 })
 
-Vue.component('addCourse', {
-  props: {
-    course: {
-      type: Object,
-      name: '',
-      department: '',
-      number: 0,
-      credit_hours: 0
+var AUTH_TOKEN = $('meta[name=csrf-token]').attr('content');
+
+Vue.component('add-course', {
+  data: function() {
+    return {
+      course: {
+        name: "",
+        department: "",
+        number: 4,
+        credit_hours: 0
+      }
     }
   },
   template: `
-  <div class="columns">
-    <div class="column is-half">
-      <div class="box">
-        <h1 class="title">New Course</h1>
-        <input class="input" v-model="new_course.name" placeholder="Course Name" type="text">
-        <input class="input" v-model="new_course.department" placeholder="Department (CS, MTH, ...)" type="text">
-        <input class="input" v-model="new_course.number" placeholder="52145" type="number">
-        <input class="input" v-model="new_course.credit_hours" placeholder="2" type="number">
-      </div>
-    </div>
-  </div>
-  `
+    <form>
+      <label class="label">
+        Name:
+        <input class="input" type="text" v-model="course.name"/>
+      </label>
+      <label class="label">
+        Department:
+        <input class="input" type="text" v-model="course.department"/>
+      </label>
+      <label class="label">
+        Number:
+        <input class="input" type="Number" v-model="course.number"/>
+      </label>
+      <label class="label">
+        Credit Hours:
+        <input class="input" type="Number" v-model="course.credit_hours"/>
+      </label>
+      <button class="button" type="submit">Submit</button>
+    </form>
+  `,
 })
 
 var ItemsVue = new Vue({
@@ -134,10 +197,10 @@ var ItemsVue = new Vue({
       sections: [],
       courses: [],
       items: [],
-      addItem: {
-        course: Object,
-        sections: []
-      },
+
+      addCourse: false,
+      addSection: false,
+      addStudent: false,
 
       new_course: {
           name: "",
@@ -184,6 +247,30 @@ var ItemsVue = new Vue({
                     console.log(error);
                 }
             });
+        },
+
+        submitNew: function(course) {
+          $.ajax({
+            url: 'http://localhost:3000/courses',
+            method: 'POST',
+            data: {course: course},
+            headers: {'X-CSRF-Token': AUTH_TOKEN},
+            success: (d) => {
+              this.addCouse = !this.addCouse
+            }
+          })
+        },
+
+        addSome: function(which) {
+          if (which === 'course') {
+            this.addCourse = !this.addCouse;
+          }
+          else if (which === 'section') {
+            this.addSection = !this.addSection;
+          }
+          else {
+            this.addStudent = !this.addStudent;
+          }
         }
 
       },
